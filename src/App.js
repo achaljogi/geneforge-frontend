@@ -200,7 +200,7 @@ function App() {
 
             <button
               className="btn btn-primary"
-              onClick={handleUpload}
+              onClick={() => !uploadLoading && handleUpload()}
               disabled={uploadLoading}
             >
               {uploadLoading ? "Uploading..." : "Upload"}
@@ -252,7 +252,8 @@ function App() {
 
                 <button
                   className="btn btn-success mb-3"
-                  onClick={runDEAnalysis}
+                  onClick={() => !deloading && runDEAnalysis()}
+                  type="button"
                   disabled={deLoading}
                 >
                   {deLoading ? "Running..." : "Run Differential Expression"}
@@ -264,7 +265,8 @@ function App() {
 
                     <button
                       className="btn btn-warning mt-3"
-                      onClick={runHeatmap}
+                      onClick={() => !heatmapLoading && runHeatmap()}
+                      type="button"
                       disabled={heatmapLoading}
                     >
                       {heatmapLoading ? "Generating..." : "Generate Heatmap"}
