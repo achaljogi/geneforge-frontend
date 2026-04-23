@@ -39,11 +39,23 @@ function App() {
 
   // Backend Health Check
   useEffect(() => {
-    fetch("https://geneforge-backend.onrender.com/health")
-      .then(res => res.json())
-      .then(data => console.log(data))
-      .catch(err => console.error("API Error:", err));
-  }, []);
+
+  const wakeBackend = async () => {
+    try {
+      await fetch(
+        "https://geneforge-backend.onrender.com/health"
+      );
+
+      console.log("Backend awake");
+
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  wakeBackend();
+
+}, []);
 
   // ================= Upload CSV =================
 
