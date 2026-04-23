@@ -31,7 +31,7 @@ function App() {
 
   const selectedSamples = [...controlSamples, ...treatedSamples];
 
-  // Backend test
+  // Backend health check
   useEffect(() => {
     fetch("https://geneforge-backend.onrender.com/health")
       .then(res => res.json())
@@ -54,8 +54,9 @@ function App() {
     formData.append("file", file);
 
     try {
+
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/upload-csv`,
+        "https://geneforge-backend.onrender.com/upload-csv",
         {
           method: "POST",
           body: formData,
@@ -99,7 +100,7 @@ function App() {
     try {
 
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/differential-expression`,
+        "https://geneforge-backend.onrender.com/differential-expression",
         {
           method: "POST",
           body: formData
@@ -109,7 +110,8 @@ function App() {
       const result = await response.json();
       setDeData(result);
 
-    } catch {
+    } catch (error) {
+      console.error(error);
       setError("Backend connection failed");
     }
 
@@ -130,7 +132,7 @@ function App() {
     try {
 
       const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/top-genes-heatmap`,
+        "https://geneforge-backend.onrender.com/top-genes-heatmap",
         {
           method: "POST",
           body: formData
@@ -140,7 +142,8 @@ function App() {
       const result = await response.json();
       setHeatmapData(result);
 
-    } catch {
+    } catch (error) {
+      console.error(error);
       setError("Heatmap failed");
     }
 
@@ -209,7 +212,6 @@ function App() {
 
           {data.length > 0 && (
             <>
-
               <div className="card p-3 mb-4 shadow">
                 <h4>Sample Group Selection</h4>
 
@@ -223,7 +225,6 @@ function App() {
               </div>
 
               <div className="card p-3 mb-4 shadow">
-
                 <h4>Quality Control Analysis</h4>
 
                 <PCAPlot
@@ -243,7 +244,6 @@ function App() {
                   controlSamples={controlSamples}
                   treatedSamples={treatedSamples}
                 />
-
               </div>
 
               <div className="card p-3 mb-4 shadow">
