@@ -37,28 +37,27 @@ function App() {
     ...treatedSamples
   ];
 
-  // Backend Health Check
+  // Backend health check
   useEffect(() => {
 
-  const wakeBackend = async () => {
-    try {
-      await fetch(
-        "https://geneforge-backend.onrender.com/health"
-      );
+    const wakeBackend = async () => {
+      try {
+        await fetch(
+          "https://geneforge-backend.onrender.com/health"
+        );
 
-      console.log("Backend awake");
+        console.log("Backend awake");
 
-    } catch (e) {
-      console.error(e);
-    }
-  };
+      } catch (e) {
+        console.error(e);
+      }
+    };
 
-  wakeBackend();
+    wakeBackend();
 
-}, []);
+  }, []);
 
-  // ================= Upload CSV =================
-
+  // Upload CSV
   const handleUpload = async () => {
 
     if (uploadLoading) return;
@@ -106,8 +105,7 @@ function App() {
 
   };
 
-  // ================= Differential Expression =================
-
+  // Differential Expression
   const runDEAnalysis = async () => {
 
     if (deLoading) return;
@@ -173,8 +171,7 @@ function App() {
 
   };
 
-  // ================= Heatmap =================
-
+  // Heatmap
   const runHeatmap = async () => {
 
     if (heatmapLoading) return;
@@ -231,8 +228,7 @@ function App() {
 
   };
 
-  // ================= Download CSV =================
-
+  // Download results CSV
   const downloadCSV = () => {
 
     if (!deData.length) return;
@@ -276,12 +272,9 @@ function App() {
         <div className="container mt-4">
 
           {/* Upload */}
-
           <div className="card p-3 mb-4 shadow">
 
-            <h4>
-              Upload Gene Expression Dataset
-            </h4>
+            <h4>Upload Gene Expression Dataset</h4>
 
             <input
               type="file"
@@ -319,12 +312,9 @@ function App() {
             <>
 
               {/* Sample Selection */}
-
               <div className="card p-3 mb-4 shadow">
 
-                <h4>
-                  Sample Group Selection
-                </h4>
+                <h4>Sample Group Selection</h4>
 
                 <SampleSelector
                   columns={columns}
@@ -336,14 +326,10 @@ function App() {
 
               </div>
 
-
-              {/* QC */}
-
+              {/* Quality Control */}
               <div className="card p-3 mb-4 shadow">
 
-                <h4>
-                  Quality Control Analysis
-                </h4>
+                <h4>Quality Control Analysis</h4>
 
                 <PCAPlot
                   data={data}
@@ -356,10 +342,7 @@ function App() {
                   data={data}
                   columns={
                     selectedSamples.length > 0
-                      ? [
-                          "GeneSymbol",
-                          ...selectedSamples
-                        ]
+                      ? ["GeneSymbol", ...selectedSamples]
                       : columns
                   }
                   controlSamples={controlSamples}
@@ -368,14 +351,10 @@ function App() {
 
               </div>
 
-
-              {/* DE */}
-
+              {/* Differential Expression */}
               <div className="card p-3 mb-4 shadow">
 
-                <h4>
-                  Differential Expression
-                </h4>
+                <h4>Differential Expression</h4>
 
                 <button
                   type="button"
@@ -423,9 +402,7 @@ function App() {
 
               </div>
 
-
               {/* Heatmap */}
-
               {heatmapData.length > 0 && (
 
                 <div className="card p-3 mb-4 shadow">
