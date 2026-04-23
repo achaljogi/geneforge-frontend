@@ -295,7 +295,7 @@ function App() {
             <button
               type="button"
               className="btn btn-primary"
-              onClick={handleUpload}
+              onMouseDown={handleUpload}
               disabled={uploadLoading}
             >
               {
@@ -380,7 +380,7 @@ function App() {
                 <button
                   type="button"
                   className="btn btn-success mb-3"
-                  onClick={runDEAnalysis}
+                  onMouseDown={runDEAnalysis}
                   disabled={deLoading}
                 >
                   {
@@ -399,7 +399,7 @@ function App() {
                     <button
                       type="button"
                       className="btn btn-warning mt-3"
-                      onClick={runHeatmap}
+                      onMouseDown={runHeatmap}
                       disabled={heatmapLoading}
                     >
                       {
