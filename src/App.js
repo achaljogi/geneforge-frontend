@@ -261,7 +261,7 @@ function App() {
 
   return (
 
-    <div className="d-flex">
+    <div className="d-flex" id="home">
 
       <Sidebar />
 
