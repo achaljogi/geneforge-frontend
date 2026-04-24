@@ -1,124 +1,184 @@
 /* Full Page Layout */
 html, body, #root{
-  height:100%;
-  margin:0;
+height:100%;
+margin:0;
 }
 
+/* Modal Overlay */
+.modal-overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+z-index:99999;
+
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+/* Modal Box */
+.modal-box{
+background:white;
+width:85%;
+max-width:1000px;
+max-height:85vh;
+overflow-y:auto;
+
+padding:30px;
+border-radius:20px;
+
+position:relative;
+z-index:100000;
+}
+
+/* Modal Header */
+.modal-header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+/* Close Button */
+.close-btn{
+background:red;
+color:white;
+border:none;
+padding:10px 25px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.close-btn:hover{
+background:darkred;
+}
+
+
+/* App Container */
 .app-container{
-  display:flex;
-  flex-direction:column;
-  min-height:100vh;
-  font-family:Arial, sans-serif;
+display:flex;
+flex-direction:column;
+min-height:100vh;
+font-family:Arial, sans-serif;
 }
 
 /* Header */
 .header{
-  background-color:#8e99ab;
-  color:white;
-  text-align:center;
-  padding:20px;
-  font-size:24px;
-  font-weight:bold;
+background-color:#8e99ab;
+color:white;
+text-align:center;
+padding:20px;
+font-size:24px;
+font-weight:bold;
 }
 
 /* Main Content */
 .main-content{
-  flex:1;
-  display:flex;
-  padding:40px;
+flex:1;
+display:flex;
+padding:40px;
 }
 
 .content{
-  flex:1;
+flex:1;
 }
+
 
 /* Upload Section */
 .upload-container{
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:20px;
-  margin:60px auto;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:20px;
+margin:60px auto;
 }
 
 /* File Input */
 input[type="file"]{
-  height:40px;
+height:40px;
 }
 
 input[type="file"]::file-selector-button{
-  background-color:#a3a7ac;
-  color:white;
-  border:none;
-  padding:10px 20px;
-  cursor:pointer;
-  height:40px;
-  width:150px;
+background-color:#a3a7ac;
+color:white;
+border:none;
+padding:10px 20px;
+cursor:pointer;
+height:40px;
+width:150px;
 }
 
 /* Upload Button */
 .upload-btn{
-  background-color:#7a899e;
-  color:white;
-  border:none;
-  height:40px;
-  width:150px;
-  cursor:pointer;
+background-color:#7a899e;
+color:white;
+border:none;
+height:40px;
+width:150px;
+cursor:pointer;
 }
+
 
 /* General Buttons */
 button{
-  width:150px;
-  padding:10px;
-  background-color:#1e3a5f;
-  color:white;
-  border:none;
-  cursor:pointer;
-  text-align:center;
-  touch-action:manipulation;
+width:150px;
+padding:10px;
+background-color:#1e3a5f;
+color:white;
+border:none;
+cursor:pointer;
+text-align:center;
+touch-action:manipulation;
 }
 
 button:hover{
-  background-color:#2a4b78;
+background-color:#2a4b78;
 }
+
 
 /* Left Panel */
 .left-panel{
-  width:100%;
-  display:flex;
-  justify-content:center;
+width:100%;
+display:flex;
+justify-content:center;
 }
+
 
 /* Center Heatmap + Download Buttons */
 .button-container{
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:20px;
-  width:100%;
-  margin-top:25px;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+gap:20px;
+width:100%;
+margin-top:25px;
 }
 
 .button-container button{
-  width:180px;
+width:180px;
 }
+
 
 /* Navbar Hover */
 .nav-link:hover{
-  background:#0d6efd;
-  border-radius:8px;
+background:#0d6efd;
+border-radius:8px;
 }
 
-/* Error Message */
+
+/* Error */
 .error{
-  color:red;
+color:red;
 }
+
 
 /* Footer */
 .footer{
-  text-align:center;
-  padding:10px;
-  background-color:#f1f1f1;
-  font-size:14px;
+text-align:center;
+padding:10px;
+background-color:#f1f1f1;
+font-size:14px;
 }
