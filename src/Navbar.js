@@ -28,14 +28,14 @@ function Navbar() {
             <ul className="navbar-nav ms-auto">
 
               {/* Home */}
-              <li className="nav-item">
+              <li className="nav-item mx-3">
                 <a className="nav-link" href="#home">
                   Home
                 </a>
               </li>
 
               {/* About button */}
-              <li className="nav-item">
+              <li className="nav-item mx-3">
                 <button
                   className="btn nav-link border-0 bg-transparent text-white"
                   onClick={() => setShowAbout(true)}
@@ -45,7 +45,7 @@ function Navbar() {
               </li>
 
               {/* User Guide button */}
-              <li className="nav-item">
+              <li className="nav-item mx-3">
                 <button
                   className="btn nav-link border-0 bg-transparent text-white"
                   onClick={() => setShowGuide(true)}
