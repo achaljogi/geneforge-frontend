@@ -1,17 +1,31 @@
 import React, { useState, useEffect } from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
+
+/* ---------- Components ---------- */
+import Navbar from "./Navbar";
+import Sidebar from "./Sidebar";
 import VolcanoPlot from "./components/VolcanoPlot";
 import PCAPlot from "./components/PCAPlot";
 import BoxPlot from "./components/BoxPlot";
 import SampleSelector from "./components/SampleSelector";
 import HeatmapPlot from "./components/HeatmapPlot";
 
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./App.css";
+/* =========================================================
+   App.js
+   Main application workflow for GeneForge:
+   1. Upload gene expression CSV
+   2. Select control and treated samples
+   3. Perform quality control (PCA + Boxplot)
+   4. Run differential expression analysis
+   5. Visualize volcano plot + top genes
+   6. Generate heatmap
+   7. Download differential expression results
+========================================================= */
 
 function App() {
+
+  /* ---------- State Variables ---------- */
 
   const [file, setFile] = useState(null);
 
@@ -37,7 +51,8 @@ function App() {
     ...treatedSamples
   ];
 
-  // Backend health check
+
+  /* ---------- Wake Backend on Load ---------- */
   useEffect(() => {
 
     const wakeBackend = async () => {
@@ -45,9 +60,7 @@ function App() {
         await fetch(
           "https://geneforge-backend.onrender.com/health"
         );
-
         console.log("Backend awake");
-
       } catch (e) {
         console.error(e);
       }
@@ -57,7 +70,11 @@ function App() {
 
   }, []);
 
-  // Upload CSV
+
+  /* =========================================================
+      Upload CSV File
+  ========================================================= */
+
   const handleUpload = async () => {
 
     if (uploadLoading) return;
@@ -102,10 +119,13 @@ function App() {
       setUploadLoading(false);
 
     }
-
   };
 
-  // Differential Expression
+
+  /* =========================================================
+      Differential Expression Analysis
+  ========================================================= */
+
   const runDEAnalysis = async () => {
 
     if (deLoading) return;
@@ -168,10 +188,13 @@ function App() {
       setDeLoading(false);
 
     }
-
   };
 
-  // Heatmap
+
+  /* =========================================================
+      Generate Heatmap
+  ========================================================= */
+
   const runHeatmap = async () => {
 
     if (heatmapLoading) return;
@@ -228,7 +251,11 @@ function App() {
 
   };
 
-  // Download results CSV
+
+  /* =========================================================
+      Download Results as CSV
+  ========================================================= */
+
   const downloadCSV = () => {
 
     if (!deData.length) return;
@@ -257,7 +284,13 @@ function App() {
     a.download = "differential_expression_results.csv";
 
     a.click();
+
   };
+
+
+  /* =========================================================
+      UI Rendering
+  ========================================================= */
 
   return (
 
@@ -271,7 +304,7 @@ function App() {
 
         <div className="container mt-4">
 
-          {/* Upload */}
+          {/* Upload Section */}
           <div className="card p-3 mb-4 shadow">
 
             <h4>Upload Gene Expression Dataset</h4>
@@ -280,9 +313,7 @@ function App() {
               type="file"
               className="form-control mb-3"
               accept=".csv"
-              onChange={(e) =>
-                setFile(e.target.files[0])
-              }
+              onChange={(e)=>setFile(e.target.files[0])}
             />
 
             <button
@@ -291,21 +322,17 @@ function App() {
               onMouseDown={handleUpload}
               disabled={uploadLoading}
             >
-              {
-                uploadLoading
-                  ? "Uploading..."
-                  : "Upload"
-              }
+              {uploadLoading ? "Uploading..." : "Upload"}
             </button>
 
-            {
-              error &&
+            {error &&
               <p className="text-danger mt-2">
                 {error}
               </p>
             }
 
           </div>
+
 
           {data.length > 0 && (
 
@@ -325,6 +352,7 @@ function App() {
                 />
 
               </div>
+
 
               {/* Quality Control */}
               <div className="card p-3 mb-4 shadow">
@@ -351,142 +379,160 @@ function App() {
 
               </div>
 
+
               {/* Differential Expression */}
-              {/* Differential Expression */}
-<div className="card p-3 mb-4 shadow">
+              <div className="card p-3 mb-4 shadow">
 
-  <h4>Differential Expression</h4>
+                <h4>Differential Expression Analysis</h4>
 
-  <button
-    type="button"
-    className="btn btn-success mb-3"
-    onMouseDown={runDEAnalysis}
-    disabled={deLoading}
-  >
-    {deLoading ? "Running..." : "Run Differential Expression"}
-  </button>
+                <button
+                  type="button"
+                  className="btn btn-success mb-3"
+                  onMouseDown={runDEAnalysis}
+                  disabled={deLoading}
+                >
+                  {deLoading
+                    ? "Running..."
+                    : "Run Differential Expression"}
+                </button>
 
-  {deData.length > 0 && (
-    <>
 
-      {/* Volcano Plot */}
-      <VolcanoPlot data={deData} />
+                {deData.length > 0 && (
+                  <>
 
-      {/* Top Differentially Expressed Genes */}
-      <div className="mt-4">
+                    <VolcanoPlot data={deData} />
 
-        <h4>Top Differentially Expressed Genes</h4>
 
-        <div style={{ overflowX: "auto" }}>
-          <table className="table table-striped table-bordered">
-            <thead>
-              <tr>
-                <th>Gene</th>
-                <th>log2FC</th>
-                <th>p-value</th>
-                <th>adj p-value</th>
-              </tr>
-            </thead>
+                    <div className="mt-4">
 
-            <tbody>
-              {deData.slice(0,20).map((gene,index)=>(
+                      <h4>Top Differentially Expressed Genes</h4>
 
-                <tr key={index}>
+                      <div style={{overflowX:"auto"}}>
 
-                  <td>
-                    {gene.Gene ||
-                     gene.gene ||
-                     gene.GeneSymbol ||
-                     "N/A"}
-                  </td>
+                        <table className="table table-striped table-bordered">
 
-                  <td>
-                    {Number(
-                      gene.log2FC || 0
-                    ).toFixed(4)}
-                  </td>
+                          <thead>
+                            <tr>
+                              <th>Gene</th>
+                              <th>log2FC</th>
+                              <th>p-value</th>
+                              <th>adj p-value</th>
+                            </tr>
+                          </thead>
 
-                  <td>
-                    {Number(
-                      gene.pvalue ||
-                      gene.p_value ||
-                      0
-                    ).toFixed(8)}
-                  </td>
+                          <tbody>
+                            {deData.slice(0,20).map((gene,index)=>(
 
-                  <td>
-                    {Number(
-                      gene.adj_pvalue ||
-                      gene.adjPvalue ||
-                      gene.padj ||
-                      0
-                    ).toFixed(8)}
-                  </td>
+                              <tr key={index}>
+                                <td>
+                                  {gene.Gene ||
+                                   gene.gene ||
+                                   gene.GeneSymbol ||
+                                   "N/A"}
+                                </td>
 
-                </tr>
+                                <td>
+                                  {Number(
+                                    gene.log2FC || 0
+                                  ).toFixed(4)}
+                                </td>
 
-              ))}
-            </tbody>
+                                <td>
+                                  {Number(
+                                    gene.pvalue ||
+                                    gene.p_value ||
+                                    0
+                                  ).toFixed(8)}
+                                </td>
 
-          </table>
-        </div>
+                                <td>
+                                  {Number(
+                                    gene.adj_pvalue ||
+                                    gene.adjPvalue ||
+                                    gene.padj ||
+                                    0
+                                  ).toFixed(8)}
+                                </td>
 
-      </div>
+                              </tr>
 
-      {/* Heatmap Button */}
-      <button
-        type="button"
-        className="btn btn-warning mt-3"
-        onMouseDown={runHeatmap}
-        disabled={heatmapLoading}
-      >
-        {heatmapLoading ? "Generating..." : "Generate Heatmap"}
-      </button>
+                            ))}
+                          </tbody>
 
-      {/* Download Results */}
-      <button
-        type="button"
-        className="btn btn-info mt-3 ms-2"
-        onClick={downloadCSV}
-      >
-        Download Results
-      </button>
+                        </table>
 
-    </>
-  )}
+                      </div>
 
-</div>
+                    </div>
 
-              {/* Heatmap */}
-              {heatmapData.length > 0 && (
 
-                <div className="card p-3 mb-4 shadow">
+                    {/* Heatmap + Download Buttons */}
+                    <div className="button-container">
 
-                  <h4>Heatmap</h4>
+                      <button
+                        className="btn btn-warning mb-3"
+                        onMouseDown={runHeatmap}
+                        disabled={heatmapLoading}
+                      >
+                        {heatmapLoading
+                          ? "Generating..."
+                          : (
+                            <>
+                              Generate <br />
+                              Heatmap
+                            </>
+                          )
+                        }
+                      </button>
 
-                  <HeatmapPlot
-                    data={heatmapData}
-                  />
+                      <button
+                        className="btn btn-info"
+                        onClick={downloadCSV}
+                      >
+                        Download <br />
+                        Results
+                      </button>
 
-                </div>
+                    </div>
 
-              )}
+
+                    {/* Heatmap */}
+                    {heatmapData.length > 0 && (
+
+                      <div className="card p-3 mt-4 shadow">
+
+                        <h4>Heatmap</h4>
+
+                        <HeatmapPlot
+                          data={heatmapData}
+                        />
+
+                      </div>
+
+                    )}
+
+                  </>
+                )}
+
+              </div>
 
             </>
 
           )}
 
-        </div>
 
-        <footer className="text-center mb-4">
-          © 2025–26 MSc Bioinformatics Academic Project
-        </footer>
+          <footer className="text-center mb-4">
+            © 2025–26 MSc Bioinformatics Academic Project
+          </footer>
+
+        </div>
 
       </div>
 
     </div>
 
   );
+
 }
 
 export default App;

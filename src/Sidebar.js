@@ -10,9 +10,6 @@ function Sidebar() {
           <span className="nav-link text-white"> 1. Upload Gene Expression Dataset</span>
         </li>
 
-        <li className="nav-item mb-2" >
-          <span className="nav-link text-white"> 2. Dataset Summary</span>
-        </li>
 
         <li className="nav-item mb-2">
           <span className="nav-link text-white"> 3. Samples Group Selection </span>
