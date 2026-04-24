@@ -352,55 +352,110 @@ function App() {
               </div>
 
               {/* Differential Expression */}
-              <div className="card p-3 mb-4 shadow">
+              {/* Differential Expression */}
+<div className="card p-3 mb-4 shadow">
 
-                <h4>Differential Expression</h4>
+  <h4>Differential Expression</h4>
 
-                <button
-                  type="button"
-                  className="btn btn-success mb-3"
-                  onMouseDown={runDEAnalysis}
-                  disabled={deLoading}
-                >
-                  {
-                    deLoading
-                    ? "Running..."
-                    : "Run Differential Expression"
-                  }
-                </button>
+  <button
+    type="button"
+    className="btn btn-success mb-3"
+    onMouseDown={runDEAnalysis}
+    disabled={deLoading}
+  >
+    {deLoading ? "Running..." : "Run Differential Expression"}
+  </button>
 
-                {deData.length > 0 && (
+  {deData.length > 0 && (
+    <>
 
-                  <>
+      {/* Volcano Plot */}
+      <VolcanoPlot data={deData} />
 
-                    <VolcanoPlot data={deData} />
+      {/* Top Differentially Expressed Genes */}
+      <div className="mt-4">
 
-                    <button
-                      type="button"
-                      className="btn btn-warning mt-3"
-                      onMouseDown={runHeatmap}
-                      disabled={heatmapLoading}
-                    >
-                      {
-                        heatmapLoading
-                        ? "Generating..."
-                        : "Generate Heatmap"
-                      }
-                    </button>
+        <h4>Top Differentially Expressed Genes</h4>
 
-                    <button
-                      type="button"
-                      className="btn btn-info mt-3 ms-2"
-                      onClick={downloadCSV}
-                    >
-                      Download Results
-                    </button>
+        <div style={{ overflowX: "auto" }}>
+          <table className="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>Gene</th>
+                <th>log2FC</th>
+                <th>p-value</th>
+                <th>adj p-value</th>
+              </tr>
+            </thead>
 
-                  </>
+            <tbody>
+              {deData.slice(0,20).map((gene,index)=>(
 
-                )}
+                <tr key={index}>
 
-              </div>
+                  <td>
+                    {gene.Gene ||
+                     gene.gene ||
+                     gene.GeneSymbol ||
+                     "N/A"}
+                  </td>
+
+                  <td>
+                    {Number(
+                      gene.log2FC || 0
+                    ).toFixed(4)}
+                  </td>
+
+                  <td>
+                    {Number(
+                      gene.pvalue ||
+                      gene.p_value ||
+                      0
+                    ).toFixed(8)}
+                  </td>
+
+                  <td>
+                    {Number(
+                      gene.adj_pvalue ||
+                      gene.adjPvalue ||
+                      gene.padj ||
+                      0
+                    ).toFixed(8)}
+                  </td>
+
+                </tr>
+
+              ))}
+            </tbody>
+
+          </table>
+        </div>
+
+      </div>
+
+      {/* Heatmap Button */}
+      <button
+        type="button"
+        className="btn btn-warning mt-3"
+        onMouseDown={runHeatmap}
+        disabled={heatmapLoading}
+      >
+        {heatmapLoading ? "Generating..." : "Generate Heatmap"}
+      </button>
+
+      {/* Download Results */}
+      <button
+        type="button"
+        className="btn btn-info mt-3 ms-2"
+        onClick={downloadCSV}
+      >
+        Download Results
+      </button>
+
+    </>
+  )}
+
+</div>
 
               {/* Heatmap */}
               {heatmapData.length > 0 && (

@@ -35,24 +35,28 @@ function Navbar() {
               </li>
 
               {/* About button */}
-              <li className="nav-item mx-3">
-                <button
-                  className="btn nav-link border-0 bg-transparent text-white"
-                  onClick={() => setShowAbout(true)}
-                >
-                  About
-                </button>
-              </li>
+              <a
+               href="#"
+               className="nav-link text-white"
+               onClick={(e) => {
+                 e.preventDefault();
+                 setShowAbout(true);
+               }}
+              >  
+               About
+              </a>
 
               {/* User Guide button */}
-              <li className="nav-item mx-3">
-                <button
-                  className="btn nav-link border-0 bg-transparent text-white"
-                  onClick={() => setShowGuide(true)}
-                >
-                  User Guide
-                </button>
-              </li>
+              <a
+               href="#"
+               className="nav-link text-white"
+               onClick={(e) => {
+               e.preventDefault();
+               setShowAbout(true);
+               }}
+              >
+               User Guide
+              </a>
 
             </ul>
 
